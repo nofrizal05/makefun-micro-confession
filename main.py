@@ -13,14 +13,19 @@ CONFESSION = (
 )
 
 
-def main() -> None:
-    line = CONFESSION
+def validate(line: str) -> None:
+    """Gate the confession line: non-empty, at most 170 chars, one line."""
     if not line:
         raise ValueError("confession must not be empty")
     if len(line) > 170:
         raise ValueError("confession must be at most 170 characters")
     if "\n" in line or "\r" in line:
         raise ValueError("confession must be a single line")
+
+
+def main() -> None:
+    line = CONFESSION
+    validate(line)
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "entry.txt").write_text(line + "\n", encoding="utf-8")
